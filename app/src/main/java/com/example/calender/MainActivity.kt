@@ -36,10 +36,10 @@ class MainActivity : AppCompatActivity() {
 
         // using setonDateChangeListener
         calenderView.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            val date = "$month/$dayOfMonth/$year"
+            val correctedMonth = month + 1
+            val date = "$correctedMonth/$dayOfMonth/$year"
 
-            // changing the textview
-            // data to selected date
+            // Update the TextView with the corrected date.
             textView.text = date
         }
 
