@@ -14,18 +14,55 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.calender.R
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 
 class MainActivity : AppCompatActivity() {
     // on below line we are creating
     // variables for text view and calendar view
     lateinit var dateTV: TextView
     lateinit var calendarView: CalendarView
+    lateinit var datePickerSpinner: Spinner
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        datePickerSpinner = findViewById(R.id.datePickerSpinner)
+
+        // Create an array of date selection options
+        val dateOptions = arrayOf("Day", "Month", "Year", "Week")
+
+        // Create an ArrayAdapter for the Spinner
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, dateOptions)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        // Set the adapter for the Spinner
+        datePickerSpinner.adapter = adapter
+
+        // Set the initial selection to "Month"
+        datePickerSpinner.setSelection(dateOptions.indexOf("Month"))
+
+        // Set an item selected listener for the Spinner
+        datePickerSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                // Handle the selected date option (day, month, year, week)
+                val selectedOption = dateOptions[position]
+                // You can perform actions based on the selected option here.
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Do nothing
+            }
+        }
         // Declaring and initializing
         // the button from the layout file
         val mButton = findViewById<Button>(R.id.button)
