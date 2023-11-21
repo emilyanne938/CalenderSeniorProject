@@ -13,9 +13,12 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CalendarView
+import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -25,13 +28,17 @@ class MainActivity : AppCompatActivity() {
     lateinit var dateTV: TextView
     lateinit var calendarView: CalendarView
     lateinit var datePickerSpinner: Spinner
-    lateinit var colorButton: Button // Added button for background color
+    lateinit var calenderSelector: ImageView
+    lateinit var colorButton: Button
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         setContentView(R.layout.activity_main)
+        val paddingValueInDP = 16
 
+        calenderSelector = findViewById(R.id.calender_selector_icon)
         datePickerSpinner = findViewById(R.id.datePickerSpinner)
         colorButton = findViewById(R.id.colorButton) // Initializing the color button
 
@@ -47,6 +54,29 @@ class MainActivity : AppCompatActivity() {
 
         // Set the initial selection to "Month"
         datePickerSpinner.setSelection(dateOptions.indexOf("Month"))
+
+        val imageView = findViewById<ImageView>(R.id.calender_selector_icon)
+
+        // Set an item selected listener for the calender selector
+        calenderSelector.setOnClickListener {
+            val popupMenu = PopupMenu(this, imageView)
+            popupMenu.menuInflater.inflate(R.menu.selector_dropdown_menu, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.personal_calender -> {
+                        true
+                    }
+                    R.id.school_calender -> {
+                        true
+                    }
+                    R.id.work_calender -> {
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popupMenu.show()
+        }
 
         // Set an item selected listener for the Spinner
         datePickerSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
