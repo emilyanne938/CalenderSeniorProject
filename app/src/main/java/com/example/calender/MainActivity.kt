@@ -1,6 +1,7 @@
 package com.example.calender;
 
 import android.content.Intent
+
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.icu.text.SimpleDateFormat
@@ -17,6 +18,12 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import android.widget.*
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import android.view.Menu;
+import android.view.MenuItem;
+
 
 class MainActivity : AppCompatActivity() {
     lateinit var dateTV: TextView
@@ -131,6 +138,38 @@ class MainActivity : AppCompatActivity() {
         colorPickerDialog.setNegativeButton("Cancel", null)
 
         colorPickerDialog.show()
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+
+        // first parameter is the file for icon and second one is menu
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // We are using switch case because multiple icons can be kept
+        when (item.getItemId()) {
+            R.id.shareButton -> {
+                val sharingIntent = Intent(Intent.ACTION_SEND)
+
+                // type of the content to be shared
+                sharingIntent.type = "text/plain"
+
+                // Body of the content
+                val shareBody = ""
+
+                // subject of the content. you can share anything
+                val shareSubject = "Join my event!"
+
+                // passing body of the content
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
+
+                // passing subject of the content
+                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubject)
+                startActivity(Intent.createChooser(sharingIntent, "Share using"))
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
 
