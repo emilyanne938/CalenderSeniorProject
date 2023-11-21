@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,41 +14,56 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:gravity="center"
-        android:padding="8dp"/>
-<!--        android:text="Current Date"-->
-<!--        android:textAlignment="center"-->
-<!--        android:textColor="@color/black"-->
-<!--        android:textSize="20sp"-->
-<!--        android:textStyle="bold" />-->
+        android:padding="8dp"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Spinner for date selection -->
+    <Spinner
+        android:id="@+id/datePickerSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/idTVDate"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:gravity="center"
+        android:spinnerMode="dropdown" />
 
     <!-- Add CalendarView to display the Calendar -->
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/idTVDate"
-        android:layout_marginTop="30dp" />
+        android:layout_below="@id/datePickerSpinner"
+        android:layout_marginTop="16dp" />
+
+    <!-- Choose Color Button -->
+
+    <!-- Button for some action (e.g., create an event) -->
+
+    <Button
+        android:id="@+id/colorButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/calendarView"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="-35dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:text="Choose Color" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
+        android:layout_below="@id/colorButton"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_centerHorizontal="false"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="168dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
         android:text="+" />
-
-    <Spinner
-        android:id="@+id/datePickerSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:padding="8dp"
-        android:gravity="center"
-        android:spinnerMode="dropdown"
-        android:layout_centerHorizontal="true" />
-
 </RelativeLayout>

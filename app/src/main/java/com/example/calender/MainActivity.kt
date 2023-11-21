@@ -1,30 +1,28 @@
 package com.example.calender;
 
 import android.content.Intent
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.icu.text.SimpleDateFormat
-import android.os.Build;
-import android.os.Bundle;
-import android.widget.Button
-import android.widget.CalendarView;
-import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import com.example.calender.R
+import android.os.Build
+import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.CalendarView
+import android.widget.SeekBar
 import android.widget.Spinner
+import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
-    // on below line we are creating
-    // variables for text view and calendar view
     lateinit var dateTV: TextView
     lateinit var calendarView: CalendarView
     lateinit var datePickerSpinner: Spinner
+    lateinit var colorButton: Button // Added button for background color
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         datePickerSpinner = findViewById(R.id.datePickerSpinner)
+        colorButton = findViewById(R.id.colorButton) // Initializing the color button
 
         // Create an array of date selection options
         val dateOptions = arrayOf("Day", "Month", "Year", "Week")
@@ -63,16 +62,17 @@ class MainActivity : AppCompatActivity() {
                 // Do nothing
             }
         }
+
         // Declaring and initializing
         // the button from the layout file
         val mButton = findViewById<Button>(R.id.button)
 
         // Registering ID's
         val textView = findViewById<TextView>(R.id.idTVDate)
-        val calenderView = findViewById<CalendarView>(R.id.calendarView)
+        calendarView = findViewById<CalendarView>(R.id.calendarView)
 
         // using setonDateChangeListener
-        calenderView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val correctedMonth = month + 1
             val date = "$correctedMonth/$dayOfMonth/$year"
 
@@ -101,5 +101,36 @@ class MainActivity : AppCompatActivity() {
             mIntent.putExtra("title", "Geeksforgeeks Event")
             startActivity(mIntent)
         }
+
+        // Set a click listener for the color button
+        colorButton.setOnClickListener {
+            // Show a color picker dialog
+            showColorPickerDialog()
+        }
+    }
+
+    private fun showColorPickerDialog() {
+        val initialColor = (calendarView.background as? ColorDrawable)?.color ?: Color.WHITE
+
+        val colorPickerDialog = AlertDialog.Builder(this)
+        colorPickerDialog.setTitle("Choose Color")
+
+        val colorPickerView = layoutInflater.inflate(R.layout.color_picker_view, null)
+        val redSeekBar = colorPickerView.findViewById<SeekBar>(R.id.redSeekBar)
+        val greenSeekBar = colorPickerView.findViewById<SeekBar>(R.id.greenSeekBar)
+        val blueSeekBar = colorPickerView.findViewById<SeekBar>(R.id.blueSeekBar)
+
+        // Customize the SeekBars and set their progress based on the initial color
+
+        colorPickerDialog.setView(colorPickerView)
+        colorPickerDialog.setPositiveButton("OK") { _, _ ->
+            // Get the selected color from the SeekBars and set it as the background color
+            val selectedColor = Color.rgb(redSeekBar.progress, greenSeekBar.progress, blueSeekBar.progress)
+            calendarView.setBackgroundColor(selectedColor)
+        }
+        colorPickerDialog.setNegativeButton("Cancel", null)
+
+        colorPickerDialog.show()
     }
 }
+
